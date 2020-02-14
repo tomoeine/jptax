@@ -40,5 +40,32 @@ RSpec.describe Jptax do
         expect(Jptax.amount_with_tax(amount)).to eq 1100
       end
     end
+
+    context '全てnilの場合' do
+      let(:amount) { nil }
+      let(:amount_for_reduced) { nil }
+
+      it '0を返す' do
+        is_expected.to eq 0
+      end
+    end
+
+    context '通常税率が nil の場合' do
+      let(:amount) { nil }
+      let(:amount_for_reduced) { 1000 }
+
+      it '正しい計算結果が返る' do
+        expect(Jptax.amount_with_tax(amount, amount_for_reduced)).to eq 1080
+      end
+    end
+
+    context '軽減税率が nil の場合' do
+      let(:amount) { 1000 }
+      let(:amount_for_reduced) { nil }
+
+      it '正しい計算結果が返る' do
+        expect(Jptax.amount_with_tax(amount, amount_for_reduced)).to eq 1100
+      end
+    end
   end
 end
